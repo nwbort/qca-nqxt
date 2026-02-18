@@ -53,11 +53,26 @@ jobs:
       run: |
         ./scrape.sh
     - name: Commit and push
+      id: commit
       run: |-
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
         git add -A
+        if git diff --cached --name-only | grep -q '\.html$'; then
+          echo "html_changed=true" >> $GITHUB_OUTPUT
+        fi
         timestamp=$(date -u)
         git commit -m "${timestamp}" || exit 0
         git pull --rebase
         git push
+    - name: Send Pushbullet notification
+      if: steps.commit.outputs.html_changed == 'true'
+      run: |
+        curl -s -u "${{ secrets.PUSHBULLET_API_KEY }}:" \
+          -X POST https://api.pushbullet.com/v2/pushes \
+          -H "Content-Type: application/json" \
+          -d '{
+            "type": "note",
+            "title": "QCA NQXT page updated",
+            "body": "The HTML file has changed: qca.org.au declaration request for North Queensland Export Terminal."
+          }'
