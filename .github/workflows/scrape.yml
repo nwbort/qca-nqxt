@@ -72,7 +72,8 @@ jobs:
           -X POST https://api.pushbullet.com/v2/pushes \
           -H "Content-Type: application/json" \
           -d '{
-            "type": "note",
+            "type": "link",
             "title": "QCA NQXT page updated",
-            "body": "The HTML file has changed: qca.org.au declaration request for North Queensland Export Terminal."
+            "body": "The HTML file has changed: qca.org.au declaration request for North Queensland Export Terminal.",
+            "url": "https://www.qca.org.au/project/declared-infrastructure/declaration-request-north-queensland-export-terminal-at-abbot-point/"
           }'
