@@ -68,7 +68,7 @@ jobs:
     - name: Send Pushbullet notification
       if: steps.commit.outputs.html_changed == 'true'
       run: |
-        curl -s -u "${{ secrets.PUSHBULLET_API_KEY }}:" \
+        curl -s -o /dev/null -u "${{ secrets.PUSHBULLET_API_KEY }}:" \
           -X POST https://api.pushbullet.com/v2/pushes \
           -H "Content-Type: application/json" \
           -d '{
